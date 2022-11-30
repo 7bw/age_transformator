@@ -20,6 +20,7 @@ def im2json(im):
 
     _, imdata = cv2.imencode('.JPG',im)
     jstr = base64.b64encode(imdata).decode('ascii')
+    #jstr = base64.b64encode(imdata)
     return jstr
 
 

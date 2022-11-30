@@ -1,5 +1,7 @@
 absl-py==1.0.0
 backcall==0.2.0
+boto3==1.25.5
+botocore==1.28.5
 cachetools==4.2.4
 certifi==2020.4.5.1
 charset-normalizer==2.0.9
@@ -44,6 +46,7 @@ pyzmq==22.3.0
 requests==2.26.0
 requests-oauthlib==1.3.0
 rsa==4.8
+s3transfer==0.6.0
 scipy==1.4.1
 six==1.16.0
 torch==1.6.0

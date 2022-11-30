@@ -1,7 +1,8 @@
-FROM public.ecr.aws/lambda/python:3.8
+FROM python:3.8
+
+WORKDIR "/root"
 
 # Copy function code
-COPY app.py ${LAMBDA_TASK_ROOT}
 
 # Add modules
 ADD scripts scripts 
@@ -15,18 +16,22 @@ ADD utils utils
 RUN chmod -R 755 .
 
 # Install dblib
-RUN yum update -y && \
-    yum install build-essential cmake pkg-config -y
-RUN yum update -y && yum install -y gcc gcc-c++
-RUN pip3 install cmake --target "${LAMBDA_TASK_ROOT}"
-RUN yum install boost-devel -y
-RUN yum install make -y
-RUN yum install libXext libSM libXrender -y
-RUN pip3 install dlib --target "${LAMBDA_TASK_ROOT}"
+RUN apt update -y && \
+    apt install build-essential cmake pkg-config -y
+RUN apt update -y && apt install -y gcc g++
+RUN pip install cmake
+RUN apt install libboost-all-dev -y
+RUN apt install make -y
+RUN apt install libsm6 libxext6 libxrender1 libfontconfig1 -y
+RUN pip install dlib
+RUN mkdir -p output
+RUN mkdir -p input
 
 # Install the function's dependencies using file requirements.txt
-COPY requirements.txt .
-RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
+COPY requirements.txt "/root/"
+RUN  pip install -r requirements.txt
+
+COPY app.py "/root/"
 
 # Set the CMD to the handler
-CMD [ "app.lambda_handler" ] 
+CMD [ "python", "app.py" ] 
